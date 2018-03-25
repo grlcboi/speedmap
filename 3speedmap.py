@@ -35,7 +35,7 @@ passwords = dict(vault_pass='secret')
 results_callback = ResultCallback()
 
 # create inventory and pass to var manager
-inventory = InventoryManager(loader=loader, sources=['localhost'])
+inventory = InventoryManager(loader=loader, sources=['test_hosts'])
 variable_manager = VariableManager(loader=loader, inventory=inventory)
 
 # create play with tasks
