@@ -31,7 +31,7 @@ class IperfClientCallback(CallbackBase):
         print('        stderr: ' + stderr)
       else:
         print('        stderr: ' + stderr)
-      print(json.dumps({host.name: result}, indent=4))
+      #print(json.dumps({host.name: result}, indent=4))
 
 # instantiate callbacks
 dump_results_callback = DumpResultCallback()
@@ -66,7 +66,7 @@ def run_play(play, callback):
       if tqm is not None:
           tqm.cleanup()
 
-servers = clients = hosts = ['robotch', 'raspi', 'mint' ]
+servers = clients = hosts = ['10.0.10.20', '10.0.10.21', '10.0.10.22' ]
 
 for server in servers:
   print('testing with server ' + server)
@@ -81,7 +81,6 @@ for server in servers:
            ]
       )
   play = Play().load(play_source, variable_manager=variable_manager, loader=loader)
-  
   result = run_play(play, silent_callback)
 
   for client in clients:
