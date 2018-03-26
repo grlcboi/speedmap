@@ -1,0 +1,43 @@
+- hosts: "{{ hosts }}"
+  become: true
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+
+  tasks:
+
+  - name: check for iperf
+    command: which iperf
+    ignore_errors: yes
+    register: iperf_installed
+
+#  - name: download binary
+#    get_url:
+#      url: http://iperf.fr/download/apple/iperf-2.0.5-macos-x86_64.zip
+#      dest: /tmp/iperf2.zip
+#      validate_certs: no
+#    when: iperf_installed is failed
+#
+#  - name: unzip iperf
+#    unarchive:
+#      src: /tmp/iperf2.zip
+#      dest: /tmp/
+#      copy: no
+#    when: iperf_installed is failed
+
+  - name: install iperf
+    copy:
+      src: ./iperf
+      dest: /usr/local/bin/
+      mode: 0755
+    when: iperf_installed is failed
+
+#  - name: install iperf
+#    copy:
+#      remote_src: yes
+#      src: /tmp/iperf-2.0.5-macos-x86_64/iperf
+#      dest: /usr/local/bin/
+#      mode: 0755
+#    when: iperf_installed is failed
+  - name: run iperf
+    command: iperf -c {{ server|quote }} -t {{ time|quote }}
+
